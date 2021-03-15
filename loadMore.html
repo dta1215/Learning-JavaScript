@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+    <text>Hiện thị </text><select name="perPage" id="selectPerPage">
+        <option value="4">4</option>
+        <option value="2">2</option>
+        <option value="5">5</option>
+    </select><text> người</text>
+    <div id="root">
+       
+    </div>
+    <button id="btnLoadMore" class="btn btn-sm btn-primary">Load More</button>
+    <script>
+        var data = [{"id":1,"first_name":"Philis","email":"pbugge0@ovh.net"},{"id":2,"first_name":"Sheba","email":"sdreghorn1@google.pl"},{"id":3,"first_name":"Mabel","email":"mbirchenough2@t-online.de"},{"id":4,"first_name":"Truda","email":"tpieracci3@ow.ly"},{"id":5,"first_name":"Brunhilda","email":"bpoolton4@springer.com"},{"id":6,"first_name":"Lebbie","email":"lsaphir5@whitehouse.gov"},{"id":7,"first_name":"Rebekah","email":"rlangsdon6@toplist.cz"},{"id":8,"first_name":"Victoria","email":"vthorp7@dyndns.org"},{"id":9,"first_name":"Mahalia","email":"mdomerc8@independent.co.uk"},{"id":10,"first_name":"Wylie","email":"wcarrel9@dyndns.org"},{"id":11,"first_name":"Aindrea","email":"avazqueza@elpais.com"},{"id":12,"first_name":"Clarisse","email":"cornellsb@cmu.edu"},{"id":13,"first_name":"Scarlett","email":"spopplestonc@seattletimes.com"},{"id":14,"first_name":"Celestine","email":"cjanceyd@bandcamp.com"},{"id":15,"first_name":"Jacquelin","email":"jjeandote@alibaba.com"}]
+        var btnLoadMore = $('#btnLoadMore')
+        var rootDiv = $('#root')
+        const selectPerPage = $('#selectPerPage')
+
+        // LoadMore()
+        // function LoadMore(){
+        //     var perPage = 4;
+        //     var currentPage = 1;
+
+        //     firstLoad()
+        //     function firstLoad(){
+        //         var start =  (currentPage - 1).perPage;
+        //         var end = (start*perPage)
+        //         var res = data.slice(start,perPage)
+        //         html = ``
+        //         $.each(res,function(i,val){
+        //             html += `<div><text>${val.id}: ${val.first_name}</text>, <text>${val.email}</text></div>`
+        //         })
+        //         rootDiv.append(html + `<hr/>`)
+        //     }
+        //     btnLoadMore.click(function(){
+        //         currentPage++;
+        //         console.log(currentPage);
+        //         var start =  (currentPage - 1)*perPage;
+        //         var end = currentPage*perPage;
+        //         var response = data.slice(start,end)
+        //         if (response.length != 0) {
+        //             html = ``
+        //             $.each(response,function(i,val){
+        //                 html += `<div><text>${val.id}: ${val.first_name}</text>, <text>${val.email}</text></div>`
+        //             })
+        //             rootDiv.append(html  + `<hr/>`)
+        //         }else{
+        //             btnLoadMore.fadeOut()
+        //         }
+        //     })
+        // }
+        
+        var x, y;
+        btnLoadMore.click(function(){
+            sum()
+        })
+        function sum(nX){
+            if(nX){
+                x = parseInt(nX);
+            }else{
+                x = 4;
+            }
+            y = 3;
+            var result = x + y;
+            rootDiv.empty().append(`<h1>${result}</h1>`)
+        }
+        selectPerPage.change(function(){
+            var x = $(this).children("option:selected").val()
+            btnLoadMore.click(function(){
+                sum(x)
+            })
+        })
+
+    </script>
+</body>
+
+</html>

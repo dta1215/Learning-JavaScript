@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+    <input id="keySearchInput" type="text" class="form-control" style="max-width: 300px;" name="keySearch" placeholder="Nhap tu khoa can tim">
+
+
+    <script>
+        const data =[{"id":1,"first_name":"Marlane","gender":"Agender","content":"Computer Systems Analyst III"},{"id":2,"first_name":"Helene","gender":"Polygender","content":"Structural Analysis Engineer"},{"id":3,"first_name":"Loria","gender":"Agender","content":"Operator"},{"id":4,"first_name":"Conan","gender":"Bigender","content":"VP Accounting"},{"id":5,"first_name":"Jocko","gender":"Polygender","content":"Web Designer IV"},{"id":6,"first_name":"Damara","gender":"Bigender","content":"Account Coordinator"},{"id":7,"first_name":"Angy","gender":"Genderfluid","content":"VP Sales"},{"id":8,"first_name":"Carleen","gender":"Female","content":"Occupational Therapist"},{"id":9,"first_name":"Carley","gender":"Genderfluid","content":"Web Developer II"},{"id":10,"first_name":"Cam","gender":"Polygender","content":"Food Chemist"}]
+    
+        console.log(data)
+
+        // CHAY OK ROI DAY
+        // $('#keySearchInput').keyup(function(){
+        //     let keyValue = $(this).val().toLowerCase()
+            
+        //     if(!!keyValue){
+        //             const result = data.filter((val,i)=>{
+        //             const reg = new RegExp("\\b" + `${keyValue}` + "\\b").test(val.first_name.toLowerCase() + " " + val.gender.toLowerCase() + " " + val.content.toLowerCase())
+        //             // const first_name = val.first_name.includes()
+        //             return reg
+        //         })
+        //         console.log(result);
+        //     }
+            
+        // })
+
+        // TEST THU CHIA cac keyword sau space thanh mang (whole word) thanh nhieu tu de Regex
+        //TEST THANH CONG tim tu khoa khong theo thu tu (a whole word not in squence)
+        // $('#keySearchInput').keyup(function(){
+        //     let keyValue = $(this).val().toLowerCase()
+        //     let whole = keyValue.split(" ")
+        //     console.log(whole);
+
+        //     const result = data.filter(function(val,i){
+        //         let reg 
+        //         whole.forEach((word,i) => {
+        //             reg = new RegExp("\\b" + `${whole[i]}` + "\\b").test(val.first_name.toLowerCase() + " " + val.gender.toLowerCase() + " " + val.content.toLowerCase())
+        //             return reg
+        //         });
+        //         return reg
+        //     })
+        //     console.log(result);
+        // })
+
+        // TETS REGEX voi mot tu kieu Like trong SQL 
+        // var stringTosearch1 ="test ,string, test"; //true
+        // var stringTosearch2 ="test string test"; //true
+        // var stringTosearch3 ="test stringtest"; //false
+        // var stringTosearch4 ="teststring test"; //false
+
+        // CHUYEN DOI TIENG VIET CO DAU SANG TIENG ANH
+        // const keySearch = "s".normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        // const dataValue = "thế giới bí mật của alex mack mỹ hoạt hình nga 2008 siêu phẩm".normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        
+        // const reg = new RegExp("\\b"+ keySearch +"\\b").test(dataValue)
+        // console.log(reg)
+
+
+    </script>
+</body>
+</html>

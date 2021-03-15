@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<style>
+    .contactContainer{
+        display: none;
+        margin: auto;
+        width: 500px;
+        position: fixed;
+        left: 10%;
+        right: 10%;
+        top: 100px;
+        background-color: rgba(77, 77, 77, 0.096);
+    }
+</style>
+
+<body>
+    <div class="contactContainer">
+        <h1>Phone: 6666 36 29</h1>
+    </div>
+    <button id="btnContact" class="btn btn-primary">Contact</button>
+
+    <script>
+       const contactMenu = (function(e){
+            const btnContact = $('#btnContact')
+            const contactContainer = $('.contactContainer')
+
+            return {
+                init: function () {
+                    btnContact.click(function(e){
+                        e.stopPropagation()
+                        !contactContainer.is(':visible') ? contactContainer.show(300) :   contactContainer.hide(300)
+                    })
+                    $(document).click(function(e){
+                        (!$(e.target).parent().hasClass('contactContainer')) &&  contactContainer.hide(300)
+                    })
+                }
+            }
+       })()
+       contactMenu.init()
+        
+
+
+
+
+    </script>
+</body>
+</html>

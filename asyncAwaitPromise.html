@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <ul id="commentBlock">
+        
+    </ul>
+    <script>
+        var comments = [
+            {
+                idUser : 1,
+                idComment: 1,
+                userName: "Ha Hoang",
+                content: "Bai hoc bo ich a"
+            },
+            {
+                idUser : 2,
+                idComment: 2,
+                userName: "Quoc An",
+                content: "Cam on ban :v"
+            }
+        ]
+        // console.log(comments);
+
+        var commentBlock = document.getElementById('commentBlock')
+        function getCommentsAndUser(){
+            var html = ''
+            return new Promise(function(resolve){
+                var getIDandComment = comments.forEach(function(val){
+                    if(val.idUser === val.idComment){
+                        html += `<li>${val.userName}: ${val.content}</li>`
+                    }
+                })
+                resolve(html)
+            })
+        }
+        async function run(){
+            let result = await getCommentsAndUser()
+            commentBlock.innerHTML = result
+            return result
+        }
+        run().then(function(val){
+            console.log(val)
+        })
+    </script>
+</body>
+</html>

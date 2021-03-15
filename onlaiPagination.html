@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+    <div>
+        <text>Chon so item mot trang: </text><select name="" id="itemsPerPage">
+            <option value="2">2</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+    </div>
+    <div id="content" class="d-flex justify-content-center">
+        
+    </div>
+    <div id="btnPage" class="d-flex justify-content-center mt-lg-5">
+    </div>
+    <script>
+        var users = [{"id":1,"fullName":"Shanta Quarry","email":"squarry0@hugedomains.com","image":"http://dummyimage.com/150x150.png/ff4444/ffffff"},{"id":2,"fullName":"Marabel Fawley","email":"mfawley1@theatlantic.com","image":"http://dummyimage.com/150x150.png/5fa2dd/ffffff"},{"id":3,"fullName":"Roddy Gloy","email":"rgloy2@sphinn.com","image":"http://dummyimage.com/150x150.png/cc0000/ffffff"},{"id":4,"fullName":"Dena Kennerley","email":"dkennerley3@vistaprint.com","image":"http://dummyimage.com/150x150.png/5fa2dd/ffffff"},{"id":5,"fullName":"Shandee MacTrustey","email":"smactrustey4@wordpress.com","image":"http://dummyimage.com/150x150.png/ff4444/ffffff"},{"id":6,"fullName":"Gaspar Ferry","email":"gferry5@symantec.com","image":"http://dummyimage.com/150x150.png/dddddd/000000"},{"id":7,"fullName":"Rubetta Blindt","email":"rblindt6@spotify.com","image":"http://dummyimage.com/150x150.png/dddddd/000000"},{"id":8,"fullName":"Benjamen Comiskey","email":"bcomiskey7@gizmodo.com","image":"http://dummyimage.com/150x150.png/cc0000/ffffff"},{"id":9,"fullName":"Rodd Vyel","email":"rvyel8@plala.or.jp","image":"http://dummyimage.com/150x150.png/cc0000/ffffff"},{"id":10,"fullName":"Junina Twigge","email":"jtwigge9@shop-pro.jp","image":"http://dummyimage.com/150x150.png/dddddd/000000"},{"id":11,"fullName":"Aggi Nisius","email":"anisiusa@weather.com","image":"http://dummyimage.com/150x150.png/dddddd/000000"},{"id":12,"fullName":"Lothaire O'Hallihane","email":"lohallihaneb@example.com","image":"http://dummyimage.com/150x150.png/ff4444/ffffff"},{"id":13,"fullName":"Ezequiel Mackness","email":"emacknessc@163.com","image":"http://dummyimage.com/150x150.png/ff4444/ffffff"},{"id":14,"fullName":"Nickie Dew","email":"ndewd@unc.edu","image":"http://dummyimage.com/150x150.png/dddddd/000000"},{"id":15,"fullName":"Val Satterthwaite","email":"vsatterthwaitee@google.fr","image":"http://dummyimage.com/150x150.png/5fa2dd/ffffff"}]
+
+
+        $('#itemsPerPage').change(function(){
+            const itemsPerPageChanged = $(this).select().val();
+            Pagination(itemsPerPageChanged)
+        })
+        Pagination()
+        function Pagination(itemsChanged){
+            const allItem = users.length
+            let itemPerPage
+            //KHI item mot trang thay doi
+            itemsChanged ? itemPerPage = itemsChanged : itemPerPage = 3
+            let numbersPage = Math.ceil(allItem/itemPerPage)
+
+            //LOAD NUT TRANG
+            loadButtonPage()
+            function loadButtonPage(){
+                html = ``
+                for (let index = 0; index < numbersPage; index++) {
+                    html+= `<button id="${index + 1}" class="btn btn-primary">${index + 1}</button>`
+                }
+                //THEM NUT CUOI TRANG VA DAU TRANG ( LAST page FIRST page)
+                btnFirst = `<button id='btnFirst' class="btn btn-danger"><< Fisrt</button>`
+                btnLast = `<button id='btnlast' class="btn btn-danger">Last >></button>`
+                $('#btnPage').empty()
+                $('#btnPage').append(btnFirst + html + btnLast)
+            }
+            
+            //KHI LOAD LAN DAU
+            $(document).ready(function(){
+                //TRANG 1 tu dong kich hoat
+                $('#btnPage button').eq(0).trigger("click")
+                const firstPage = $('#btnPage button').eq(1).attr('id');
+                disableFirstLastPage(firstPage)
+            })
+
+            
+
+            //KHI BAM NUT
+            btnPageClick()
+            function btnPageClick(){
+                var btn = $('#btnPage button')
+                $(btn).each(function(i,button){
+                    const btn = $(this)
+                    btn.click(function(){
+                        var currentPage
+                        if($(this).attr('id').length == "btnLast".length){
+                            currentPage = numbersPage
+                            loadItemsPage(currentPage)
+                        } else if($(this).attr('id').length == "btnFirst".length){
+                            currentPage = 1
+                            loadItemsPage(currentPage)
+                        }
+                        else{
+                            currentPage = $(this).attr('id')
+                            //KHI CLICK PAGE 1 va Last page thi an nut di
+                            disableFirstLastPage(currentPage,numbersPage)
+                            loadItemsPage(currentPage)
+                        }
+                        
+                    })
+                })
+
+                //LAST click
+            }
+
+            
+            //DUNG CHUNG LOAD ITEM PAGE
+            function loadItemsPage(currentP){
+                let htmlItems = ``
+                        let start = (currentP - 1)*itemPerPage
+                        let end = currentP*itemPerPage
+                        let itemsCurrentPage = users.slice(start,end)
+                        console.log(itemsCurrentPage);
+                        $.each(itemsCurrentPage,function(i,item){
+                            htmlItems+= `<div class="showItem"><p>${item.fullName}<p>`
+                                    +`<p>${item.email}<p>`
+                                    +`<img src="${item.image}"/></div>`
+                                    
+                        })
+                        $('#content').empty().append(htmlItems)
+            }
+
+            function disableFirstLastPage(currentPage,allnumberPage){
+                const btnFirst = $('#btnFirst')
+                const btnLast = $('#btnlast')
+                console.log(currentPage);
+                switch(currentPage){
+                    case "1":
+                        btnLast.removeAttr('disabled')
+                        btnFirst.attr('disabled',"disabled")
+                        break;
+                    case `${allnumberPage}`:
+                        btnFirst.removeAttr('disabled')
+                        btnLast.attr('disabled',"disabled")
+                        break;
+                    default:
+                        btnFirst.removeAttr('disabled')
+                        btnLast.removeAttr('disabled')
+                        break;
+                }
+            }
+
+        }
+
+
+    </script>
+</body>
+</html>

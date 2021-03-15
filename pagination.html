@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<style>
+    #profile{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        flex-wrap: wrap;
+    }
+    .profile+.profile{
+        margin-left: 20px;
+    }
+</style>
+<body>
+    <text>Select Item per page: </text><select id="selectContentPerPage">
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+    </select>
+    <hr>
+    <div id="content">
+        <div id="profile" class="container-fluid">
+            <!-- <p>name: abc</p>
+            <p>email: abc@gmail.com</p>
+            <img src="http://dummyimage.com/150x150.png/ff4444/ffffff" alt=""> -->
+        </div>
+    </div>
+    <hr>
+    <div id="containerBtnPage" class="container d-flex justify-content-center">
+        <div class="row">
+            <div id="btnPage">
+
+            </div>
+            <button id="lastPage" class="btn btn-primary">Last</button>
+        </div>
+    </div>
+    
+    <script>
+        var person = 
+        [
+            {
+            "id": 1,
+            "fullName": "Shanta Quarry",
+            "email": "squarry0@hugedomains.com",
+            "image": "http://dummyimage.com/150x150.png/ff4444/ffffff"
+            }, {
+            "id": 2,
+            "fullName": "Marabel Fawley",
+            "email": "mfawley1@theatlantic.com",
+            "image": "http://dummyimage.com/150x150.png/5fa2dd/ffffff"
+            }, {
+            "id": 3,
+            "fullName": "Roddy Gloy",
+            "email": "rgloy2@sphinn.com",
+            "image": "http://dummyimage.com/150x150.png/cc0000/ffffff"
+            }, {
+            "id": 4,
+            "fullName": "Dena Kennerley",
+            "email": "dkennerley3@vistaprint.com",
+            "image": "http://dummyimage.com/150x150.png/5fa2dd/ffffff"
+            }, {
+            "id": 5,
+            "fullName": "Shandee MacTrustey",
+            "email": "smactrustey4@wordpress.com",
+            "image": "http://dummyimage.com/150x150.png/ff4444/ffffff"
+            }, {
+            "id": 6,
+            "fullName": "Gaspar Ferry",
+            "email": "gferry5@symantec.com",
+            "image": "http://dummyimage.com/150x150.png/dddddd/000000"
+            }, {
+            "id": 7,
+            "fullName": "Rubetta Blindt",
+            "email": "rblindt6@spotify.com",
+            "image": "http://dummyimage.com/150x150.png/dddddd/000000"
+            }, {
+            "id": 8,
+            "fullName": "Benjamen Comiskey",
+            "email": "bcomiskey7@gizmodo.com",
+            "image": "http://dummyimage.com/150x150.png/cc0000/ffffff"
+            }, {
+            "id": 9,
+            "fullName": "Rodd Vyel",
+            "email": "rvyel8@plala.or.jp",
+            "image": "http://dummyimage.com/150x150.png/cc0000/ffffff"
+            }, {
+            "id": 10,
+            "fullName": "Junina Twigge",
+            "email": "jtwigge9@shop-pro.jp",
+            "image": "http://dummyimage.com/150x150.png/dddddd/000000"
+            }, {
+            "id": 11,
+            "fullName": "Aggi Nisius",
+            "email": "anisiusa@weather.com",
+            "image": "http://dummyimage.com/150x150.png/dddddd/000000"
+            }, {
+            "id": 12,
+            "fullName": "Lothaire O'Hallihane",
+            "email": "lohallihaneb@example.com",
+            "image": "http://dummyimage.com/150x150.png/ff4444/ffffff"
+            }, {
+            "id": 13,
+            "fullName": "Ezequiel Mackness",
+            "email": "emacknessc@163.com",
+            "image": "http://dummyimage.com/150x150.png/ff4444/ffffff"
+            }, {
+            "id": 14,
+            "fullName": "Nickie Dew",
+            "email": "ndewd@unc.edu",
+            "image": "http://dummyimage.com/150x150.png/dddddd/000000"
+            }, {
+            "id": 15,
+            "fullName": "Val Satterthwaite",
+            "email": "vsatterthwaitee@google.fr",
+            "image": "http://dummyimage.com/150x150.png/5fa2dd/ffffff"
+            }
+        ]
+            const lastPage = $('#lastPage');
+
+            var contentOnePage
+            var allPage = person.length
+            var pagesButton
+            
+            function selectContentPerPage(itemPerPage){
+                if(itemPerPage){
+                    return itemPerPage
+                }else{
+                    return 3
+                }
+            }
+            $('#selectContentPerPage').change(function(){
+                    var itemsPerPage = $(this).children("option:selected").val()
+                    selectContentPerPage(itemsPerPage)
+
+                    loadPage1First(itemsPerPage)
+                    loadBtnPage(itemsPerPage)
+                    numberPageClick(itemsPerPage)
+                    lastPageClick(itemsPerPage)
+                })
+            // $('#selectContentPerPage').change(function(){
+            //     var itemsPerPage = $(this).children("option:selected").val()
+            //     contentOnePage = itemsPerPage
+            //     })
+
+            function loadBtnPage(itemPerPage){
+                itemPerPage ? itemPerPage = itemPerPage : itemPerPage = 3
+                contentOnePage = itemPerPage
+                pagesButton = Math.ceil(allPage/contentOnePage)
+                html = ''
+                for (let i = 0; i < pagesButton; i++) {
+                    html += `<button id="${i+1}" class="btn btn-primary btnNumberPage">${i+1}</button>`
+                }
+                $('#btnPage').empty()
+                $('#btnPage').append(html)
+            }
+            loadBtnPage()
+
+            function loadPage1First(itemPerPage){
+                itemPerPage ? itemPerPage = itemPerPage : itemPerPage = 3
+                contentOnePage = itemPerPage
+                display = ''
+                var currentPage = person.slice(0,contentOnePage)
+                currentPage.forEach(function(val){
+                    display += `<div class="profile"><p>Name: ${val.fullName}</p>
+                                                        <p>Email: ${val.email}<p>
+                                                        <img src="${val.image}"></div>`
+                })
+                $('#profile').empty()
+                $('#profile').append(display)
+            }
+            loadPage1First()
+            
+            checkLastPage = (numberMaxPage)=>{
+                let maxPage = allPage/contentOnePage;
+                numberMaxPage == maxPage ? lastPage.attr('disabled','disabled') 
+                                         : lastPage.removeAttr('disabled')
+            }
+            
+            function numberPageClick(itemPerPage){
+                itemPerPage ? itemPerPage = itemPerPage : itemPerPage = 3
+                $('button.btnNumberPage').click(function(val){
+                    display = ''
+                    var idcurrentButtonPage = val.target.id
+                    console.log(idcurrentButtonPage);
+                    // CHECK IS LAST PAGE => DISABLE LAST BUTTON
+                    checkLastPage(idcurrentButtonPage)
+                    start = (idcurrentButtonPage - 1)*itemPerPage
+                    end = idcurrentButtonPage*itemPerPage
+                    var currentPage = person.slice(start,end)
+                    currentPage.forEach(function(val){
+                        display += `<div class="profile"><p>Name: ${val.fullName}</p>
+                                                            <p>Email: ${val.email}<p>
+                                                            <img src="${val.image}"></div>`
+                    })
+                    $('#profile').empty()
+                    $('#profile').html(display)
+                })
+            }
+            numberPageClick()
+           
+            lastPageClick()
+            function lastPageClick(itemPerPage){
+                itemPerPage ? itemPerPage = itemPerPage : itemPerPage = 3
+                lastPage.click(function(){
+                    display = '';
+                    var last = allPage/itemPerPage;
+                    start = (last - 1)*itemPerPage
+                    end = last*itemPerPage
+                    var currentPage = person.slice(start,end)
+                    currentPage.forEach(function(val){
+                        display += `<div class="profile"><p>Name: ${val.fullName}</p>
+                                                            <p>Email: ${val.email}<p>
+                                                            <img src="${val.image}"></div>`
+                    })
+                    $('#profile').empty()
+                    $('#profile').html(display)
+                })
+            }
+            
+        // var page1 = person.slice(0,3)
+        // display = ''
+        // page1.forEach(function(val){
+        //     display += `<div class="profile"><p>Name: ${val.fullName}</p>
+        //                 <p>Email: ${val.email}<p>
+        //                 <img src="${val.image}"></div>`
+        // })
+        // $('#profile').html(display)
+
+    </script>
+</body>
+</html>

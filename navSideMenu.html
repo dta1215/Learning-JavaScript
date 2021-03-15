@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<style>
+    header{
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 70px;
+        background-color: #5d5d5d;
+    }
+    .ulMain{
+        list-style: none;
+        display: inline-flex;
+        font-size: 16px;
+        color: rgb(231, 235, 22);
+    }
+    li{
+        padding-right: 20px;
+    }
+    #btnNav{
+        display: none;
+    }
+    @media only screen and (max-width: 600px) {
+        #btnNav{
+            display: block;
+        }
+        .ulMain{
+            display: none;
+        }
+        .nav600{
+            position: fixed;
+            left: 0px;
+            top: 44px;
+            background-color: #757373;
+            border-radius: 3px;
+        }
+        .ulChild{
+            display: none;
+        }
+    }
+</style>
+<body>
+    <header>
+        <button id="btnNav" class="btn btn-primary">=</button>
+        <ul class="ulMain">
+            <a href="" id="btnHomeNav">
+                <li>Home</li>
+                <ul class="ulChild">
+                    <a href="">Create</a>
+                    <a href="">Detail</a>
+                </ul>
+            </a>
+            <li>Images</li>
+            <li>Videos</li>
+            <li>Other</li>
+        </ul>
+    </header>
+    <script>
+        $('#btnNav').click(function(e){
+            // e.preventDefault();
+            e.stopPropagation();
+            $('.ulMain').addClass('nav600');
+            $('.ulMain').toggle(200);
+        })
+        $(document).click(function(e){
+            var ul = $(this).find('.ulMain').hasClass('nav600')
+            if (ul) {
+                var ulChild = $(this).find('.ulChild')
+                if (ulChild) {
+                    ulChild.hide(200)
+                    ul.hide(200)
+
+                }
+            }
+        })
+        // UL CHILD 
+        $('#btnHomeNav').click(function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            $('.ulChild').toggle(200)
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+    <h3> Tim kiem </h3>
+    <input id="inputSearch" type="text" name="keySearch" placeholder="Nhap tu khoa can tim" />
+    <button id="btnSearch" class="btn btn-primary">Tim kiem</button>
+    
+    <table id="showdata" class="table table-resonpive table-hover">
+       <thead>
+         <tr>
+           <th>Name</th>
+           <th>Email</th>
+         </tr>
+       </thead>
+       <tbody>
+         
+       </tbody>
+    </table>
+
+    <script>
+        const table = $('#showdata')
+        const inputSearch = $('#inputSearch')
+
+        const data = [
+            {
+            name: "Nguyen nhu nguyen",    email: "nguyen@gmail.com"
+            },{
+                name: "Ha tung anh",    email: "tunganh371@gmail.com"
+            },{
+                name: "nguyen tien dat",    email: "tiendatn@gmail.com"
+            }]
+
+        const dataTbl = data.map((val,i)=>{
+                return `<tr><td>${val.name}</td><td>${val.email}</td></tr>`
+        })
+
+        const tbody = table.find('tbody')
+        tbody.empty().append(dataTbl)
+
+        inputSearch.keyup((e)=>{
+            var valueInput = e.target.value.toLowerCase()
+            const tr = table.children('tbody').find('tr')
+            for (let i = 0; i < tr.length; i++) {
+                var td = $(tr[i]).children('td')
+                console.log(td[0]);
+                if(td[0]){
+                    txtVal = td[0].innerText
+                    if(txtVal.toLowerCase().indexOf(valueInput) > -1){
+                        $(tr[i]).css("display","")
+                    }else{
+                        $(tr[i]).css("display","none")
+                    }
+                }
+            }
+        })
+
+        
+    </script>
+</body>
+</html>

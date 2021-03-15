@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<style>
+    .sliderBody{
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        margin: auto;
+    }
+    .mainView{
+        position: absolute;
+        margin: auto;
+        width: 500px;
+        background-color: #6d6d6d;
+        box-shadow: 2px 2px 2px 1px #464545a3;
+    }
+    .arrow{
+        position: absolute;
+        bottom: 35%;
+        font-size: 118px;
+        color: #ffffff85;
+        cursor: pointer;
+    }
+    .rightArrow{
+        right: 0;
+    }
+    .imgslider{
+        display: none;
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+    }
+    
+</style>
+<body>
+    <div class="sliderBody">
+        <div class="mainView">
+            <span class="arrow leftArrow"><</span>
+            <span class="arrow rightArrow">></span>
+            <div class="showImage">
+
+            </div>
+        </div>
+            <img class="imgslider" src="./buncha2.png" alt="">
+            <img class="imgslider" src="./Kushina-Minato.png" alt="">
+            <img class="imgslider" src="./buncha2Depth.png" alt="">
+            <img class="imgslider" src="./buncha2.png" alt="">
+
+    </div>
+
+    <script>
+
+        var sliderBody =  $('.sliderBody')
+        var mainView = $('.mainView')
+        var mainViewShowIMG = $('.showImage')
+        var rightArrow = $('.rightArrow')
+        var leftArrow = $('.leftArrow')
+        
+        var allImg = sliderBody.find('img')
+        console.log(allImg);
+
+        console.log(allImg[0]);
+       
+        firstImg();
+        function firstImg(){
+            $(allImg[0]).attr('id','0');
+            $(allImg[0]).fadeIn(500);
+            mainViewShowIMG.empty().append(allImg[0]);
+        }
+        rightArrow.click(function(){
+            var currentImgID = mainViewShowIMG.children().attr('id');
+            let nextImgID = parseInt(currentImgID)+1;
+            $(allImg[currentImgID]).fadeOut(500)
+            $(allImg[nextImgID]).attr('id',`${nextImgID}`);
+            $(allImg[nextImgID]).fadeIn(500);
+            mainViewShowIMG.empty().append(allImg[nextImgID]);
+            if(nextImgID == 3){
+                $(this).fadeOut(400)
+                leftArrow.show()
+            }
+     
+        })
+        leftArrow.click(function(){
+            var currentImgID = mainViewShowIMG.children().attr('id');
+            let nextImgID = parseInt(currentImgID)-1;
+            $(allImg[nextImgID]).attr('id',`${nextImgID}`);
+            $(allImg[currentImgID]).fadeOut(500)
+            $(allImg[nextImgID]).fadeIn(500);
+            mainViewShowIMG.empty().append(allImg[nextImgID]);
+            if(nextImgID == 0){
+                $(this).fadeOut(400)
+                rightArrow.show()
+            }
+        })
+
+    </script>
+</body>
+</html>

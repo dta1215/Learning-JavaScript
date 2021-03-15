@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<style>
+    .show{
+        display: flex;
+        margin: auto;
+        width: 800px;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+    .pageNumber{
+        display: flex;
+        width: 200px;
+        margin: auto;
+    }
+    .btnPage{
+        width: 50px;
+        background-color: #bdd1d2;
+        box-shadow: none;
+        outline: none;
+        border: none;
+        box-shadow: brown;
+        box-shadow: 0px 3px 3px 0px #3333;
+        padding: 0px 10px 0px 10px;
+        margin-right: 1px;
+        color: #4d4949;
+    }
+    #tblShow{
+        width: 50%;
+        min-height: 370px;
+        margin: auto;
+    }
+</style>
+<body>
+    <text>Số lượng hiển thị: </text><select id="numPerPage">
+        <option value="" >Chọn số lượng item</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="10">10</option>
+    </select>
+    <table id="tblShow" class="table table-responsive table-striped table-considered">
+        <thead>
+            <tr>
+                <th>img</th>
+                <th>id</th>
+                <th>full name</th>
+                <th>email</th>
+            </tr>
+        </thead>
+        <tbody>
+           
+        </tbody>
+    </table>
+   
+    <div class="pageNumber"> </div>
+
+    <script>
+        var users = [{"id":1,"fullName":"Shanta Quarry","email":"squarry0@hugedomains.com","image":"http://dummyimage.com/150x150.png/ff4444/ffffff"},{"id":2,"fullName":"Marabel Fawley","email":"squarry0@hugedomains.com","image":"http://dummyimage.com/150x150.png/5fa2dd/ffffff"},{"id":3,"fullName":"Roddy Gloy","email":"rgloy2@sphinn.com","image":"http://dummyimage.com/150x150.png/cc0000/ffffff"},{"id":4,"fullName":"Dena Kennerley","email":"dkennerley3@vistaprint.com","image":"http://dummyimage.com/150x150.png/5fa2dd/ffffff"},{"id":5,"fullName":"Shandee MacTrustey","email":"smactrustey4@wordpress.com","image":"http://dummyimage.com/150x150.png/ff4444/ffffff"},{"id":6,"fullName":"Gaspar Ferry","email":"gferry5@symantec.com","image":"http://dummyimage.com/150x150.png/dddddd/000000"},{"id":7,"fullName":"Rubetta Blindt","email":"rblindt6@spotify.com","image":"http://dummyimage.com/150x150.png/dddddd/000000"},{"id":8,"fullName":"Benjamen Comiskey","email":"bcomiskey7@gizmodo.com","image":"http://dummyimage.com/150x150.png/cc0000/ffffff"},{"id":9,"fullName":"Rodd Vyel","email":"rvyel8@plala.or.jp","image":"http://dummyimage.com/150x150.png/cc0000/ffffff"},{"id":10,"fullName":"Junina Twigge","email":"jtwigge9@shop-pro.jp","image":"http://dummyimage.com/150x150.png/dddddd/000000"},{"id":11,"fullName":"Aggi Nisius","email":"anisiusa@weather.com","image":"http://dummyimage.com/150x150.png/dddddd/000000"},{"id":12,"fullName":"Lothaire O'Hallihane","email":"lohallihaneb@example.com","image":"http://dummyimage.com/150x150.png/ff4444/ffffff"},{"id":13,"fullName":"Ezequiel Mackness","email":"emacknessc@163.com","image":"http://dummyimage.com/150x150.png/ff4444/ffffff"},{"id":14,"fullName":"Nickie Dew","email":"ndewd@unc.edu","image":"http://dummyimage.com/150x150.png/dddddd/000000"},{"id":15,"fullName":"Val Satterthwaite","email":"vsatterthwaitee@google.fr","image":"http://dummyimage.com/150x150.png/5fa2dd/ffffff"},{"id":16,"fullName":"Shanta Quarry","email":"squarry0@hugedomains.com","image":"http://dummyimage.com/150x150.png/ff4444/ffffff"},{"id":17,"fullName":"Marabel Fawley","email":"mfawley1@theatlantic.com","image":"http://dummyimage.com/150x150.png/5fa2dd/ffffff"},{"id":18,"fullName":"Roddy Gloy","email":"rgloy2@sphinn.com","image":"http://dummyimage.com/150x150.png/cc0000/ffffff"},{"id":19,"fullName":"Dena Kennerley","email":"dkennerley3@vistaprint.com","image":"http://dummyimage.com/150x150.png/5fa2dd/ffffff"},{"id":20,"fullName":"Shandee MacTrustey","email":"smactrustey4@wordpress.com","image":"http://dummyimage.com/150x150.png/ff4444/ffffff"},{"id":21,"fullName":"Gaspar Ferry","email":"gferry5@symantec.com","image":"http://dummyimage.com/150x150.png/dddddd/000000"}]
+        
+        // Toan bo function pagination
+        phantrang()
+        function phantrang() {
+            $('#numPerPage').change(function(e){
+                let number = $('#numPerPage option:selected').val()
+                if(number == null || number == ""){
+                    number = 4
+                }
+                Pagination(number)
+            })
+
+            Pagination()
+            function Pagination(numPerPage = 4){
+                // Hien Button trang 
+                loadPage(numPerPage)
+                function loadPage(numPerPage){
+                    let allPageNumber = Math.ceil(users.length / numPerPage)
+                    html = ``
+                    for (let i = 1; i <= allPageNumber; i++) {
+                        html += `<button id="${i}" class="btnPage btn-sm" >${i}</button>`
+                    }
+                    html += `<button id="last" class="btnPage btn-sm" >Last</button>`
+                    $('.pageNumber').empty().append(html)
+                }
+
+                // Hien thi noi dung chinh 
+                load(1,numPerPage)
+                function load(currPage = 1,numPerPage){
+                    let start, end
+
+                    start = (currPage-1)*numPerPage
+                    end = currPage*numPerPage
+                    var currentPageItems = users.slice(start,end)
+                    html = ``
+                    $.each(currentPageItems,function(i,val){
+                        html += ` <tr>
+                                    <td><img width=50 height=50 src="${val.image}" alt="${val.image}"></td>
+                                    <td>${val.id}</td>
+                                    <td>${val.fullName}</td>
+                                    <td>${val.email}</td>
+                                </tr>`
+                    })
+                    $('#tblShow').hide()
+                    $('#tblShow tbody').empty().append(html)
+                    $('#tblShow').fadeIn(300)
+                }
+                // Chuyen trang
+                pageClick()
+                function pageClick(){
+                    $('.btnPage').click(function(e){
+                        let currPage = e.target.id
+                        if(currPage == "last"){
+                            currPage = $(this).prev().attr('id')
+                            $(this).prev().focus()
+                        }
+                        load(currPage,numPerPage)
+                    })
+                }
+            }
+        }
+    
+    </script>
+</body>
+</html>

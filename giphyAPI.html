@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+    integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+    <div id="showImg" class="d-flex justify-content-center">
+        <img width="300" height="300" src="" alt="Heeeelloooo!">
+    </div>
+    <div class="d-flex justify-content-center mt-lg-5">
+        <input type="text" placeholder="Nhap tu khoa can tim">
+        <button id="getImg" class="btn btn-primary">Random IMG</button>
+    </div>
+    <script>
+        async function getImage(){
+            const tag = await getTag()
+            const URL = "https://api.giphy.com/v1/gifs/random"
+            const API_KEY = "IULYWyDXmp5Ubg73g8dwZJjHB8K1oBht"
+
+            const fullURL = URL + "?api_key=" + API_KEY + `&tag=${tag}`
+            console.log(fullURL);
+            var getIMG = fetch(fullURL).then(response=>response.json())
+            return getIMG
+        }
+        async function run(){
+            const result = await getImage()
+            // console.log(result.data.image_url);
+            $('#showImg').empty()
+            const html = `<img width="300" height="300" src="${result.data.image_url}" alt="">`
+            $('#showImg').append(html)
+        }
+
+        async function getTag(){
+            const tag = $('input').val().replaceAll(' ','')
+            return tag
+        }
+
+        $('#getImg').click(function(){
+            run()
+        })
+    </script>
+</body>
+</html>
+
+
+
+
+<!-- <script>
+    async function getImage(tag){
+        const URL = "https://api.giphy.com/v1/gifs/random"
+        const API_KEY = "IULYWyDXmp5Ubg73g8dwZJjHB8K1oBht"
+
+        const fullURL = URL + "?api_key=" + API_KEY + `&tag=${tag}`
+        console.log(fullURL);
+        var getIMG = fetch(fullURL).then(response=>response.json())
+        return getIMG
+    }
+    async function run(){
+        const tag = $('input').val()
+        const resultTag = await getTag(tag)
+        const result = await getImage(resultTag)
+        // console.log(result.data.image_url);
+        $('#showImg').empty()
+        const html = `<img width="250" height="250" src="${result.data.image_url}" alt="">`
+        $('#showImg').append(html)
+    }
+
+    async function getTag(getTag){
+        return getTag
+    }
+
+    $('#getImg').click(function(){
+        run()
+    })
+</script> -->

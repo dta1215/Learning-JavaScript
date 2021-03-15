@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<style>
+    .slider{
+        display: -webkit-box;
+        width: 482px;
+        height: 30px;
+        border: solid 1px;
+        /* display: flex; */
+        /* flex-direction: row; */
+        /* flex-wrap: wrap; */
+        /* justify-content: space-between; */
+        overflow: hidden;
+        background-color: #333333c9;
+    }
+    .content{
+        position: relative;
+        animation: scrolling 10s linear infinite;
+        animation-play-state: paused;
+        background-color: yellowgreen;
+        min-width: 60px;
+        text-align: center;
+        margin-right: 10px;
+    }
+    @keyframes scrolling{
+        0% {transform: translateX(482px);}
+        100% {transform: translateX(0px);}
+    }
+
+   
+</style>
+<body>
+    <div class="slider">
+        <div class="content"><p>item 1</p></div>
+        <div class="content"><p>item 2</p></div>
+        <div class="content"><p>item 3</p></div>
+        <div class="content"><p>item 4</p></div>
+        <div class="content"><p>item 5</p></div>
+        <div class="content"><p>item 6</p></div>
+        <div class="content"><p>item 7</p></div>
+    </div>
+    <button id="btnNext">Next Animation</button>
+    <script>
+        // $('.content:animated').scroll(function(){
+        //     console.log($(this));
+        // })
+       
+        // setInterval(function(){
+        //         $('.content').css({'animation': "scrolling 10s linear infinite"})
+        //         console.log('aaa');
+        //     // setInterval(() => {
+        //     //     $('.content').css({'animation-play-state': "running"})
+        //     // }, 1500);
+        //     $('.content').css({'animation-play-state': "paused"})
+        // },1000)
+        
+        const allContent = $('.slider').find('.content')
+        $.each(allContent, function(i,content){
+            $('#btnNext').click(function(){
+                $(content).css({'animation-play-state': "running"})
+                setTimeout(() => {
+                    $(content).css({'animation-play-state': "paused"})
+                }, 1450);
+            })
+        })
+        // setInterval(() => {
+        //     $('#btnNext').click()
+        // }, 2000);
+      
+     
+    
+    </script>
+</body>
+</html>

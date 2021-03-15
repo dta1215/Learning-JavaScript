@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.3.7/pixi.min.js"
+        integrity="sha512-k8E2ILMRTO1YBnA2dvTDfsZs7f07gazZDQYbsv2NCxnM9hYFwCKu+rWISm8/fFB1I/gi0tgnURcXJVR7GlE0BA=="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.3.7/pixi.js"
+        integrity="sha512-fxT83MtwWPCH0xy2YaThfu0Lw3gQDBkH/KOKWFS05oi2Fy99Ck3mCSR0r0urFEUcKCFMrELGjUx7w9P6nk1wGQ=="
+        crossorigin="anonymous"></script>
+</head>
+<style>
+    body {
+        padding: 0px;
+        margin: 0px;
+    }
+
+    .show3Dphoto {
+        position: relative;
+        /* width: 900px;
+        height: 500px; */
+    }
+
+    img {
+        width: 100%;
+    }
+
+    #hoverPhoto {
+        position: fixed;
+        top: 400px;
+        font-family: revert;
+        color: #a6a6a6c7;
+    }
+</style>
+
+<body>
+    <div id="show3Dphoto" class="d-flex justify-content-center">
+        <!-- <img src="./buncha2Depth.png" alt=""> -->
+        <span id="hoverPhoto">Hover on the Photo</span>
+    </div>
+    <script>
+        run()
+
+        function run() {
+            $('#hoverPhoto').on({
+                mousemove: function () {
+                    $(this).hide(500,"swing");
+                }
+            })
+
+            let app = new PIXI.Application({
+                width: 600,
+                height: 450,
+                backgroundColor: 0x2c3e50
+            });
+            //RUN APP 
+            $('#show3Dphoto').append(app.view)
+            let img = new PIXI.Sprite.from('./images/buncha2.png');
+            img.width = 600;
+            img.height = 450;
+            app.stage.addChild(img);
+
+            let depthmap = new PIXI.Sprite.from('./images/buncha2_depth.png');
+            app.stage.addChild(depthmap);
+
+            displacementFilter = new PIXI.filters.DisplacementFilter(depthmap);
+            app.stage.filters = [displacementFilter];
+
+            // window.onmousemove = function(e){
+            // }
+            $(window).mousemove(function (e) {
+                displacementFilter.scale.x = (600 / 2 - e.clientX)/20;
+                displacementFilter.scale.y = (450 / 2 - e.clientY)/20;
+            })
+
+        }
+    </script>
+</body>
+</html>
