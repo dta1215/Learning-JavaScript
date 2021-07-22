@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+    integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<style>
+
+</style>
+<body>
+    <table id="showDataTable" class="table table-responsive table-striped table-hover">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>first_name</th>
+                <th>email</th>
+                <th>gender</th>
+            </tr>
+        </thead>
+        <tbody>        
+
+        </tbody>
+    </table>
+
+    <script>
+        const showDataTable = $('#showDataTable')
+        const data = [{"id":1,"first_name":"Jerrine","email":"jpaddell0@clickbank.net","gender":"Female"},{"id":2,"first_name":"Kipp","email":"kvinson1@blogs.com","gender":"Polygender"},{"id":3,"first_name":"Quillan","email":"qgilley2@i2i.jp","gender":"Bigender"},{"id":4,"first_name":"Em","email":"eaimson3@paypal.com","gender":"Polygender"},{"id":5,"first_name":"Susan","email":"ssappell4@shinystat.com","gender":"Genderfluid"}]
+
+        const tableResult = data.map((val,i)=>{
+            return `<tr>
+                        <td>${val.id}</td>
+                        <td>${val.first_name}</td>
+                        <td>${val.email}</td>
+                        <td>${val.gender}</td>
+                    </tr>`
+        })
+        showDataTable.children('tbody').empty().append(tableResult)
+                                                        
+                                                            //OR .find('tr').find('td:first')
+        let firstTDeachRow = showDataTable.children('tbody').find('tr td:nth-child(1)') 
+
+        const allTD = showDataTable.children('tbody').find('td').not(firstTDeachRow)
+        allTD.click((e)=>{
+            e.stopPropagation()
+            const [currElement, currValue] = [e.target, e.target.textContent]
+            const currElementSelector = $(currElement)
+            let input;
+            
+            if(currElementSelector.has(`input`).length == 1){
+                currElementSelector.html(input.val())
+            }else{
+                currElementSelector.html(`<input type="text" class="form-control-sm" value="${currValue}" />`)
+                input = currElementSelector.children()
+                input.focus()
+            }
+            
+            // handler when mouse leave
+            input.click((e)=>{
+                e.stopPropagation();
+                window.addEventListener('keypress', (evt)=>{
+                    if(evt.key == "Enter") currElementSelector.html($(e.target).val())
+                })
+            })
+            input.blur((e)=>{
+                currElementSelector.html($(e.target).val())
+            })
+        })
+
+
+    </script>
+</body>
+</html>
