@@ -31,24 +31,29 @@
             <tr>
                 <th>ID</th>
                 <th>Class</th>
+                <th>Point</th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td>1</td>
                 <td>1705HTTC001</td>
+                <td>10</td>
             </tr>
             <tr>
                 <td>2</td>
                 <td>1705HTTC002</td>
+                <td>9</td>
             </tr>
             <tr>
                 <td>3</td>
                 <td>1705HTTC003</td>
+                <td>7</td>
             </tr>
             <tr>
                 <td>4</td>
                 <td>1705HTTC004</td>
+                <td>8</td>
             </tr>
         </tbody>
     </table>
@@ -63,52 +68,53 @@
                         <td>${val.email}</td>
                         <td>${val.gender}</td>
                     </tr>`
-                })
-                $('#showDataTable').children('tbody').empty().append(tableResult)
+        })
+        $('#showDataTable').children('tbody').empty().append(tableResult)
                 
         const DirectlyEditTable = (function(){
-            return {
-                editable: function (options) {
-                    $(options.classSelector).each((i, selector)=>{
-                        let directlyEditable 
-                        directlyEditable = $(`${selector}`)
-                    
-                        // Get all <td> element in the Table 
-                        let TDinTable = directlyEditable.children('tbody').find('td')
-                        // Filter all <td> if have additional (disable specific columns) means AllTD.not(additional)
-                        if(options.disabledColumn){
-                            const columnSelectors = Object.values(options.disabledColumn).map((val,i)=>{
-                                return `td:nth-child(${val})`
-                            })
-                            TDinTable = directlyEditable.children('tbody').find('td').not(`${columnSelectors.join()}`)
+            function Handler(options) {
+                $(options.classSelector).each((i, selector)=>{
+                    let directlyEditable 
+                    directlyEditable = $(`${selector}`)
+                
+                    // Get all <td> element in the Table 
+                    let TDinTable = directlyEditable.children('tbody').find('td')
+                    // Filter all <td> if have additional (disable specific columns) means AllTD.not(additional)
+                    if(options.disabledColumn){
+                        const columnSelectors = Object.values(options.disabledColumn).map((val,i)=>{
+                            return `td:nth-child(${val})`
+                        })
+                        TDinTable = directlyEditable.children('tbody').find('td').not(`${columnSelectors.join()}`)
+                    }
+                    // Editable on each td 
+                    TDinTable.click((e)=>{
+                        e.stopPropagation()
+                        const [currElement, currValue] = [e.target, e.target.textContent]
+                        const currElementSelector = $(currElement)
+                        let input;
+                        
+                        if(currElementSelector.has(`input`).length == 1){
+                            currElementSelector.html(input.val())
+                        }else{
+                            currElementSelector.html(`<input type="text" class="form-control-sm" value="${currValue}" />`)
+                            input = currElementSelector.children()
+                            input.focus()
                         }
-                        // Editable on each td 
-                        TDinTable.click((e)=>{
-                            e.stopPropagation()
-                            const [currElement, currValue] = [e.target, e.target.textContent]
-                            const currElementSelector = $(currElement)
-                            let input;
-                            
-                            if(currElementSelector.has(`input`).length == 1){
-                                currElementSelector.html(input.val())
-                            }else{
-                                currElementSelector.html(`<input type="text" class="form-control-sm" value="${currValue}" />`)
-                                input = currElementSelector.children()
-                                input.focus()
-                            }
-                            // Handler as mouse leave
-                            input.click((e)=>{
-                                e.stopPropagation();
-                                window.addEventListener('keypress', (evt)=>{
-                                    if(evt.key == "Enter") currElementSelector.html($(e.target).val())
-                                })
-                            })
-                            input.blur((e)=>{
-                                currElementSelector.html($(e.target).val())
+                        // Handler as mouse leave
+                        input.click((e)=>{
+                            e.stopPropagation();
+                            window.addEventListener('keypress', (evt)=>{
+                                if(evt.key == "Enter") currElementSelector.html($(e.target).val())
                             })
                         })
+                        input.blur((e)=>{
+                            currElementSelector.html($(e.target).val())
+                        })
                     })
-                }
+                })
+            }
+            return {
+                editable: Handler
             }
         })()
 
@@ -127,7 +133,6 @@
         //     disabledColumn: ["1"]
         // })
 
-            
     </script>
 </body>
 </html>
