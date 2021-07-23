@@ -12,7 +12,7 @@
 
 </style>
 <body>
-    <table id="showDataTable" class="table table-responsive table-striped table-hover">
+    <table id="showDataTable" class="directlyEditable1 table table-responsive table-striped table-hover">
         <thead>
             <tr>
                 <th>ID</th>
@@ -26,51 +26,108 @@
         </tbody>
     </table>
 
-    <script>
-        const showDataTable = $('#showDataTable')
-        const data = [{"id":1,"first_name":"Jerrine","email":"jpaddell0@clickbank.net","gender":"Female"},{"id":2,"first_name":"Kipp","email":"kvinson1@blogs.com","gender":"Polygender"},{"id":3,"first_name":"Quillan","email":"qgilley2@i2i.jp","gender":"Bigender"},{"id":4,"first_name":"Em","email":"eaimson3@paypal.com","gender":"Polygender"},{"id":5,"first_name":"Susan","email":"ssappell4@shinystat.com","gender":"Genderfluid"}]
+    <table class="directlyEditable2 table table-responsive table-hover table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Class</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>1705HTTC001</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>1705HTTC002</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>1705HTTC003</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>1705HTTC004</td>
+            </tr>
+        </tbody>
+    </table>
 
+    <script>
+        const data = [{"id":1,"first_name":"Jerrine","email":"jpaddell0@clickbank.net","gender":"Female"},{"id":2,"first_name":"Kipp","email":"kvinson1@blogs.com","gender":"Polygender"},{"id":3,"first_name":"Quillan","email":"qgilley2@i2i.jp","gender":"Bigender"},{"id":4,"first_name":"Em","email":"eaimson3@paypal.com","gender":"Polygender"},{"id":5,"first_name":"Susan","email":"ssappell4@shinystat.com","gender":"Genderfluid"}]
+        
         const tableResult = data.map((val,i)=>{
             return `<tr>
-                        <td>${val.id}</td>
-                        <td>${val.first_name}</td>
+                <td>${val.id}</td>
+                <td>${val.first_name}</td>
                         <td>${val.email}</td>
                         <td>${val.gender}</td>
                     </tr>`
-        })
-        showDataTable.children('tbody').empty().append(tableResult)
-                                                        
-                                                            //OR .find('tr').find('td:first')
-        let firstTDeachRow = showDataTable.children('tbody').find('tr td:nth-child(1)') 
-
-        const allTD = showDataTable.children('tbody').find('td').not(firstTDeachRow)
-        allTD.click((e)=>{
-            e.stopPropagation()
-            const [currElement, currValue] = [e.target, e.target.textContent]
-            const currElementSelector = $(currElement)
-            let input;
-            
-            if(currElementSelector.has(`input`).length == 1){
-                currElementSelector.html(input.val())
-            }else{
-                currElementSelector.html(`<input type="text" class="form-control-sm" value="${currValue}" />`)
-                input = currElementSelector.children()
-                input.focus()
-            }
-            
-            // handler when mouse leave
-            input.click((e)=>{
-                e.stopPropagation();
-                window.addEventListener('keypress', (evt)=>{
-                    if(evt.key == "Enter") currElementSelector.html($(e.target).val())
                 })
-            })
-            input.blur((e)=>{
-                currElementSelector.html($(e.target).val())
-            })
+                $('#showDataTable').children('tbody').empty().append(tableResult)
+                
+        const DirectlyEditTable = (function(){
+            return {
+                editable: function (options) {
+                    $(options.classSelector).each((i, selector)=>{
+                        let directlyEditable 
+                        directlyEditable = $(`${selector}`)
+                    
+                        // Get all <td> element in the Table 
+                        let TDinTable = directlyEditable.children('tbody').find('td')
+                        // Filter all <td> if have additional (disable specific columns) means AllTD.not(additional)
+                        if(options.disabledColumn){
+                            const columnSelectors = Object.values(options.disabledColumn).map((val,i)=>{
+                                return `td:nth-child(${val})`
+                            })
+                            TDinTable = directlyEditable.children('tbody').find('td').not(`${columnSelectors.join()}`)
+                        }
+                        // Editable on each td 
+                        TDinTable.click((e)=>{
+                            e.stopPropagation()
+                            const [currElement, currValue] = [e.target, e.target.textContent]
+                            const currElementSelector = $(currElement)
+                            let input;
+                            
+                            if(currElementSelector.has(`input`).length == 1){
+                                currElementSelector.html(input.val())
+                            }else{
+                                currElementSelector.html(`<input type="text" class="form-control-sm" value="${currValue}" />`)
+                                input = currElementSelector.children()
+                                input.focus()
+                            }
+                            // Handler as mouse leave
+                            input.click((e)=>{
+                                e.stopPropagation();
+                                window.addEventListener('keypress', (evt)=>{
+                                    if(evt.key == "Enter") currElementSelector.html($(e.target).val())
+                                })
+                            })
+                            input.blur((e)=>{
+                                currElementSelector.html($(e.target).val())
+                            })
+                        })
+                    })
+                }
+            }
+        })()
+
+        // Apply for all Table
+        const editTable = DirectlyEditTable.editable({
+            classSelector: [".directlyEditable1", ".directlyEditable2"],
+            disabledColumn: ["1"]
         })
+        // Apply on each Table
+        // const editTable = DirectlyEditTable.editable({
+        //     classSelector: [".directlyEditable1"],
+        //     disabledColumn: ["1", "2"]
+        // })
+        // const editTable3 = DirectlyEditTable.editable({
+        //     classSelector: [".directlyEditable2"],
+        //     disabledColumn: ["1"]
+        // })
 
-
+            
     </script>
 </body>
 </html>
